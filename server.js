@@ -14,7 +14,7 @@ main().catch(err => console.log(err));
 
 let Book;
 async function main() {
-  await mongoose.connect('mongodb://localhost:27017/UserBook');
+  await mongoose.connect(process.env.MONGO_URL);
 
   const BookSchema = new mongoose.Schema({
     title: String,
