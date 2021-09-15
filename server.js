@@ -58,6 +58,8 @@ server.get('/books',getBooksHandler)
 server.post('/addbooks',addBooksHandler)
 // http://localhost:3010/deletebooks/id?email=email
 server.delete('/deletebooks/:id',deleteBooksHandler)
+// http://localhost:3010/putBooksHandler/id?
+server.put('/updatebooks/:id',updateBooksHandler)
 
 
 
@@ -116,6 +118,20 @@ function deleteBooksHandler(req,res){
     })
 }
 
+function updateBooksHandler(req,res){
+    const id = req.params.id
+    const {title,description,status,email}=req.body
+
+    Book.findByIdAndUpdate(id,{title,description,status,email},(err,result)=>{
+        Book.find({email:email},(err,result)=>{
+            if(err){
+                console.log(err);
+            }else{
+                res.send(result);
+            }
+        })
+    })
+}
 
 server.listen(PORT, () => {
 console.log(`listening on ${PORT}`);
